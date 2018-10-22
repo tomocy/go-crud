@@ -48,4 +48,18 @@ func route(app *mvc.MVC) {
 			Method: "Show",
 		},
 	}, account)
+	app.Router.Register(path.Path{
+		Methods: []string{"OTION"},
+		Path:    "/account/{id}",
+		Controller: path.Controller{
+			Method: "OPTION",
+		},
+	}, account)
+	app.Router.Register(path.Path{
+		Methods: []string{"DELETE"},
+		Path:    "/account/{id}",
+		Controller: path.Controller{
+			Method: "Delete",
+		},
+	}, account)
 }

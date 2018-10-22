@@ -74,7 +74,7 @@ func (cntrl Account) Create(w http.ResponseWriter, r *http.Request) {
 
 	cntrl.Model.Create(user)
 
-	http.Redirect(w, r, "/", http.StatusFound)
+	cntrl.View.Render(w, "account.show.html", user)
 }
 
 func validateToCreate(r *http.Request) error {
@@ -87,4 +87,27 @@ func validateToCreate(r *http.Request) error {
 	}
 
 	return nil
+}
+
+func (cntrl Account) Option(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (cntrl Account) Delete(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	s := vars["id"]
+	id, err := strconv.Atoi(s)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	user := &m.User{
+		ID: id,
+	}
+
+	cntrl.Model.Delete(user)
+
+	cntrl.View.Render(w, "account.new.html", nil)
 }
