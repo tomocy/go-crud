@@ -1,0 +1,34 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MVC in Go</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="page-header text-center pt-5">
+        <h1>Create a new account</h1>
+    </div>
+    <div class="container">
+        <form action="/account/create" method="POST" class="form-signin col-md-4 offset-md-4 mt-5">
+            <div class="form-label-group">
+                <input type="email" placeholder="Email address" id="inputEmail" class="form-control" name="email"
+                    required autofocus>
+            </div>
+
+            <div class="form-label-group mt-3">
+                <input type="password" placeholder="Password" id="inputPassword" class="form-control" name="password"
+                    required>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Sign up</button>
+            <p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2018</p>
+        </form>
+    </div>
+</body>
+
+</html>
