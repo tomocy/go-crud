@@ -27,39 +27,41 @@ func main() {
 
 func route(app *mvc.MVC) {
 	account := controller.NewAccount(app.Model)
-	app.Router.Register(path.Path{
-		Methods: []string{"GET"},
-		Path:    "/account/create",
-		Controller: path.Controller{
-			Method: "New",
+	app.Router.Register(account, []path.Path{
+		{
+			Methods: []string{"GET"},
+			Path:    "/account/create",
+			Controller: path.Controller{
+				Method: "New",
+			},
 		},
-	}, account)
-	app.Router.Register(path.Path{
-		Methods: []string{"POST"},
-		Path:    "/account/create",
-		Controller: path.Controller{
-			Method: "Create",
+		{
+			Methods: []string{"POST"},
+			Path:    "/account/create",
+			Controller: path.Controller{
+				Method: "Create",
+			},
 		},
-	}, account)
-	app.Router.Register(path.Path{
-		Methods: []string{"GET"},
-		Path:    "/account/{id}",
-		Controller: path.Controller{
-			Method: "Show",
+		{
+			Methods: []string{"GET"},
+			Path:    "/account/{id}",
+			Controller: path.Controller{
+				Method: "Show",
+			},
 		},
-	}, account)
-	app.Router.Register(path.Path{
-		Methods: []string{"OTION"},
-		Path:    "/account/{id}",
-		Controller: path.Controller{
-			Method: "OPTION",
+		{
+			Methods: []string{"OTION"},
+			Path:    "/account/{id}",
+			Controller: path.Controller{
+				Method: "OPTION",
+			},
 		},
-	}, account)
-	app.Router.Register(path.Path{
-		Methods: []string{"DELETE"},
-		Path:    "/account/{id}",
-		Controller: path.Controller{
-			Method: "Delete",
+		{
+			Methods: []string{"DELETE"},
+			Path:    "/account/{id}",
+			Controller: path.Controller{
+				Method: "Delete",
+			},
 		},
-	}, account)
+	})
 }
