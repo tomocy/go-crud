@@ -89,11 +89,6 @@ func validateToCreate(r *http.Request) error {
 	return nil
 }
 
-func (cntrl Account) Option(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
-	w.WriteHeader(http.StatusOK)
-}
-
 func (cntrl Account) Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	s := vars["id"]

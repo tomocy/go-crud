@@ -50,10 +50,10 @@ func route(app *mvc.MVC) {
 			},
 		},
 		{
-			Methods: []string{"OTION"},
+			Methods: []string{"OPTIONS"},
 			Path:    "/account/{id}",
 			Controller: path.Controller{
-				Method: "OPTION",
+				Method: "CORSOptions",
 			},
 		},
 		{
