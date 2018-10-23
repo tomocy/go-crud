@@ -4,5 +4,13 @@
     "db": {
         "dialect": "mysql",
         "dsn": "mvc:Mysql(1)@/mvc"
+    },
+    "session": {
+        "name": "MVCSESS",
+        "domain": "",
+        "path": "/",
+        "maxAge": 30000,
+        "secure": false,
+        "httpOnly": true
     }
 }

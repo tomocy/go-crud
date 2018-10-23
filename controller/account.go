@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	m "github.com/tomocy/crud/model"
 	"github.com/tomocy/mvc/controller"
-	"github.com/tomocy/mvc/model"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -22,9 +22,9 @@ type Account struct {
 	*controller.Base
 }
 
-func NewAccount(model *model.Model) controller.Controller {
+func NewAccount() controller.Controller {
 	return &Account{
-		Base: controller.NewBase(model),
+		Base: controller.NewBase(),
 	}
 }
 
@@ -74,6 +74,8 @@ func (cntrl Account) Create(w http.ResponseWriter, r *http.Request) {
 
 	cntrl.Model.Create(user)
 
+	cntrl.startSession(w, r)
+
 	cntrl.View.Render(w, "account.show.html", user)
 }
 
@@ -84,6 +86,21 @@ func validateToCreate(r *http.Request) error {
 
 	if r.PostFormValue("password") == "" {
 		return ErrPasswordEmpty
+	}
+
+	return nil
+}
+
+func (cntrl Account) startSession(w http.ResponseWriter, r *http.Request) error {
+	sess, err := cntrl.SessionStore.New(r, cntrl.Config.Session.Name)
+	if err != nil {
+		return err
+	}
+
+	sess.Values["SESSID"] = uuid.New().String()
+
+	if err := cntrl.SessionStore.Save(r, w, sess); err != nil {
+		return err
 	}
 
 	return nil

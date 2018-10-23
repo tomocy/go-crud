@@ -23,7 +23,7 @@ func main() {
 }
 
 func route(app *mvc.MVC) {
-	account := controller.NewAccount(app.Model)
+	account := controller.NewAccount()
 	app.Router.Register(account, []path.Path{
 		{
 			Methods: []string{"GET"},
