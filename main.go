@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/tomocy/crud/controller"
 	"github.com/tomocy/crud/model"
@@ -20,9 +19,7 @@ func main() {
 
 	route(app)
 
-	addr := ":5050"
-	log.Println("listning on " + addr + "...")
-	log.Fatalln(http.ListenAndServe(addr, app))
+	log.Fatalln(app.ListenAndServe())
 }
 
 func route(app *mvc.MVC) {
