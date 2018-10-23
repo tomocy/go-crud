@@ -1,0 +1,8 @@
+{
+    "host": "http://192.168.55.55",
+    "port": ":5050",
+    "db": {
+        "dialect": "mysql",
+        "dsn": "mvc:Mysql(1)@/mvc"
+    }
+}

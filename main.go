@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	app, err := mvc.New()
+	app, err := mvc.New("config/app.json")
 	if err != nil {
 		log.Fatalln(err)
 	}
