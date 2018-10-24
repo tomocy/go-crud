@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	m "github.com/tomocy/crud/model"
 	"github.com/tomocy/mvc/controller"
 	"golang.org/x/crypto/bcrypt"
@@ -74,7 +75,20 @@ func (cntrl Account) Create(w http.ResponseWriter, r *http.Request) {
 
 	cntrl.Model.Create(user)
 
-	cntrl.startSession(w, r)
+	sess, err := cntrl.startSession(w, r)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	sess.Values["userID"] = user.ID
+
+	if err := cntrl.SessionStore.Save(r, w, sess); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	cntrl.View.Render(w, "account.show.html", user)
 }
@@ -91,19 +105,19 @@ func validateToCreate(r *http.Request) error {
 	return nil
 }
 
-func (cntrl Account) startSession(w http.ResponseWriter, r *http.Request) error {
+func (cntrl Account) startSession(w http.ResponseWriter, r *http.Request) (*sessions.Session, error) {
 	sess, err := cntrl.SessionStore.New(r, cntrl.Config.Session.Name)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	sess.Values["SESSID"] = uuid.New().String()
 
 	if err := cntrl.SessionStore.Save(r, w, sess); err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return sess, nil
 }
 
 func (cntrl Account) Delete(w http.ResponseWriter, r *http.Request) {
