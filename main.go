@@ -61,4 +61,15 @@ func route(app *mvc.MVC) {
 			},
 		},
 	})
+
+	sess := controller.NewSession()
+	app.Router.Register(sess, []path.Path{
+		{
+			Methods: []string{"GET"},
+			Path:    "/login",
+			Controller: path.Controller{
+				Method: "New",
+			},
+		},
+	})
 }
