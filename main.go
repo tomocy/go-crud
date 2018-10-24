@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/tomocy/crud/controller"
+	"github.com/tomocy/crud/middleware"
 	"github.com/tomocy/crud/model"
 	"github.com/tomocy/mvc"
 	"github.com/tomocy/mvc/path"
@@ -39,18 +40,20 @@ func route(app *mvc.MVC) {
 				Method: "Create",
 			},
 		},
+		// {
+		// 	Methods: []string{"OPTIONS"},
+		// 	Path:    "/account/{id}",
+		// 	Controller: path.Controller{
+		// 		Method: "CORSOptions",
+		// 	},
+		// },
+	}, middleware.Welcome)
+	app.Router.Register(account, []path.Path{
 		{
 			Methods: []string{"GET"},
 			Path:    "/account/{id}",
 			Controller: path.Controller{
 				Method: "Show",
-			},
-		},
-		{
-			Methods: []string{"OPTIONS"},
-			Path:    "/account/{id}",
-			Controller: path.Controller{
-				Method: "CORSOptions",
 			},
 		},
 		{
@@ -60,7 +63,7 @@ func route(app *mvc.MVC) {
 				Method: "Delete",
 			},
 		},
-	})
+	}, middleware.Authenticate)
 
 	sess := controller.NewSession()
 	app.Router.Register(sess, []path.Path{
@@ -78,13 +81,15 @@ func route(app *mvc.MVC) {
 				Method: "Create",
 			},
 		},
-		{
-			Methods: []string{"OPTIONS"},
-			Path:    "/logout",
-			Controller: path.Controller{
-				Method: "CORSOptions",
-			},
-		},
+		// {
+		// 	Methods: []string{"OPTIONS"},
+		// 	Path:    "/logout",
+		// 	Controller: path.Controller{
+		// 		Method: "CORSOptions",
+		// 	},
+		// },
+	}, middleware.Welcome)
+	app.Router.Register(sess, []path.Path{
 		{
 			Methods: []string{"DELETE"},
 			Path:    "/logout",
@@ -92,5 +97,5 @@ func route(app *mvc.MVC) {
 				Method: "Delete",
 			},
 		},
-	})
+	}, middleware.Authenticate)
 }

@@ -42,18 +42,6 @@ func (cntrl Session) New(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cntrl Session) Create(w http.ResponseWriter, r *http.Request) {
-	sess, err := cntrl.SessionStore.Get(r, cntrl.Config.Session.Name)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	if _, ok := sess.Values["SESSID"]; ok {
-		http.Redirect(w, r, fmt.Sprintf("/account/%s", sess.Values["userID"]), http.StatusSeeOther)
-		return
-	}
-
 	user := &model.User{
 		Email: r.PostFormValue("email"),
 	}
@@ -64,7 +52,7 @@ func (cntrl Session) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sess, err = cntrl.startSession(w, r)
+	sess, err := cntrl.startSession(w, r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
