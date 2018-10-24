@@ -15,9 +15,14 @@
             <div class="text-center pt-5">
                 <h1 class="display-4">{{ .Email }}</h1>
             </div>
-            <div>
+            <div class="mt-5">
                 <a id="deleteButton" class="btn btn-danger btn-block col-md-2 offset-md-5" href="" role="button">
                     Deelte account
+                </a>
+            </div>
+            <div class="mt-3">
+                <a id="logoutButton" class="btn btn-danger btn-block col-md-2 offset-md-5" href="" role="button">
+                    Log out
                 </a>
             </div>
         </div>
@@ -34,6 +39,17 @@
                 location.href = "/account/create"
             })
         }, false)
+
+        let logoutButton = document.getElementById("logoutButton")
+        logoutButton.addEventListener("click", function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: "http://192.168.55.55:5050/logout",
+                type: "DELETE",
+            }).done(function () {
+                location.href = "/login"
+            })
+        })
     </script>
 </body>
 

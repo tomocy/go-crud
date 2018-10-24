@@ -71,5 +71,26 @@ func route(app *mvc.MVC) {
 				Method: "New",
 			},
 		},
+		{
+			Methods: []string{"POST"},
+			Path:    "/login",
+			Controller: path.Controller{
+				Method: "Create",
+			},
+		},
+		{
+			Methods: []string{"OPTIONS"},
+			Path:    "/logout",
+			Controller: path.Controller{
+				Method: "CORSOptions",
+			},
+		},
+		{
+			Methods: []string{"DELETE"},
+			Path:    "/logout",
+			Controller: path.Controller{
+				Method: "Delete",
+			},
+		},
 	})
 }
