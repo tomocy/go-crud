@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MVC in Go</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="col-md-8 offset-md-2">
+        <div class="pt-5">
+            <h3>{{ .User.Email }}</h3>
+        </div>
+        <div class="pt-3">
+            <p>{{ .Post.Content }}</p>
+        </div>
+        <div class="mt-5">
+            <a id="deleteButton" class="btn btn-danger btn-block col-md-2" href="" role="button">
+                Delete
+            </a>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        let deleteButton = document.getElementById("deleteButton")
+        deleteButton.addEventListener("click", function (e) {
+            e.preventDefault()
+            $.ajax({
+                url: "http://192.168.55.55:5050/post/{{ .Post.ID }}",
+                type: "DELETE"
+            }).done(function () {
+                location.href = "/account/{{ .User.ID }}"
+            })
+        }, false)
+    </script>
+</body>
+
+</html>

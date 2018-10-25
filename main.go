@@ -118,4 +118,13 @@ func route(app *mvc.MVC) {
 			},
 		},
 	}, middleware.Authenticate)
+	app.Router.Register(post, []path.Path{
+		{
+			Methods: []string{"GET"},
+			Path:    "/post/{id}",
+			Controller: path.Controller{
+				Method: "Show",
+			},
+		},
+	})
 }

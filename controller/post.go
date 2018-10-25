@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/tomocy/crud/model"
 	"github.com/tomocy/mvc/controller"
 )
@@ -58,4 +60,34 @@ func (cntrl Post) validateToCreate(r *http.Request) error {
 	}
 
 	return nil
+}
+
+func (cntrl Post) Show(w http.ResponseWriter, r *http.Request) {
+	s := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(s)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	post := &model.Post{
+		ID: id,
+	}
+
+	cntrl.Model.Find(post)
+
+	user := &model.User{
+		ID: post.UserID,
+	}
+
+	cntrl.Model.Find(user)
+
+	cntrl.View.Render(w, "post.show.html", struct {
+		User *model.User
+		Post *model.Post
+	}{
+		User: user,
+		Post: post,
+	})
 }
