@@ -16,7 +16,9 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	app.Model.AutoMigrate(model.User{})
+	app.Model.AutoMigrate(
+		model.User{}, model.Post{},
+	)
 
 	route(app)
 
@@ -108,5 +110,12 @@ func route(app *mvc.MVC) {
 				Method: "New",
 			},
 		},
-	} /*, middleware.Authenticate*/)
+		{
+			Methods: []string{"POST"},
+			Path:    "/post/create",
+			Controller: path.Controller{
+				Method: "Create",
+			},
+		},
+	}, middleware.Authenticate)
 }
