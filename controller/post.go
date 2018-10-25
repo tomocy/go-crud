@@ -91,3 +91,19 @@ func (cntrl Post) Show(w http.ResponseWriter, r *http.Request) {
 		Post: post,
 	})
 }
+
+func (cntrl Post) Delete(w http.ResponseWriter, r *http.Request) {
+	s := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(s)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	post := &model.Post{
+		ID: id,
+	}
+
+	cntrl.Model.Delete(post)
+}

@@ -42,13 +42,6 @@ func route(app *mvc.MVC) {
 				Method: "Create",
 			},
 		},
-		// {
-		// 	Methods: []string{"OPTIONS"},
-		// 	Path:    "/account/{id}",
-		// 	Controller: path.Controller{
-		// 		Method: "CORSOptions",
-		// 	},
-		// },
 	}, middleware.Welcome)
 	app.Router.Register(account, []path.Path{
 		{
@@ -83,13 +76,6 @@ func route(app *mvc.MVC) {
 				Method: "Create",
 			},
 		},
-		// {
-		// 	Methods: []string{"OPTIONS"},
-		// 	Path:    "/logout",
-		// 	Controller: path.Controller{
-		// 		Method: "CORSOptions",
-		// 	},
-		// },
 	}, middleware.Welcome)
 	app.Router.Register(sess, []path.Path{
 		{
@@ -115,6 +101,13 @@ func route(app *mvc.MVC) {
 			Path:    "/post/create",
 			Controller: path.Controller{
 				Method: "Create",
+			},
+		},
+		{
+			Methods: []string{"DELETE"},
+			Path:    "/post/{id}",
+			Controller: path.Controller{
+				Method: "Delete",
 			},
 		},
 	}, middleware.Authenticate)
