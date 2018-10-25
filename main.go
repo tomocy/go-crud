@@ -98,4 +98,15 @@ func route(app *mvc.MVC) {
 			},
 		},
 	}, middleware.Authenticate)
+
+	post := controller.NewPost()
+	app.Router.Register(post, []path.Path{
+		{
+			Methods: []string{"GET"},
+			Path:    "/post/create",
+			Controller: path.Controller{
+				Method: "New",
+			},
+		},
+	} /*, middleware.Authenticate*/)
 }
