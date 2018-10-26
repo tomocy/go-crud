@@ -105,5 +105,15 @@ func (cntrl Post) Delete(w http.ResponseWriter, r *http.Request) {
 		ID: id,
 	}
 
+	cntrl.Model.Find(post)
+
+	sess, _ := cntrl.SessionStore.Get(r, cntrl.Config.Session.Name)
+	userID := sess.Values["userID"].(int)
+
+	if userID != post.UserID {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+
 	cntrl.Model.Delete(post)
 }
