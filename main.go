@@ -17,7 +17,7 @@ func main() {
 	}
 
 	app.Model.AutoMigrate(
-		model.User{}, model.Post{},
+		model.User{}, model.Post{}, model.Comment{},
 	)
 
 	route(app)
@@ -117,6 +117,17 @@ func route(app *mvc.MVC) {
 			Path:    "/post/{id}",
 			Controller: path.Controller{
 				Method: "Show",
+			},
+		},
+	})
+
+	comment := controller.NewComment()
+	app.Router.Register(comment, []path.Path{
+		{
+			Methods: []string{"GET"},
+			Path:    "/post/{id}/comment/create",
+			Controller: path.Controller{
+				Method: "New",
 			},
 		},
 	})
