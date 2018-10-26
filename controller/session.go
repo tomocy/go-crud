@@ -48,7 +48,7 @@ func (cntrl Session) Create(w http.ResponseWriter, r *http.Request) {
 	cntrl.Model.Find(user)
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(r.PostFormValue("password"))); err != nil {
-		http.Redirect(w, r, "/login", http.StatusBadRequest)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 
