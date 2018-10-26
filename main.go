@@ -130,5 +130,12 @@ func route(app *mvc.MVC) {
 				Method: "New",
 			},
 		},
+		{
+			Methods: []string{"POST"},
+			Path:    "/post/{id}/comment/create",
+			Controller: path.Controller{
+				Method: "Create",
+			},
+		},
 	})
 }

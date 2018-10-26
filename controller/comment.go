@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -44,4 +45,27 @@ func (cntrl Comment) New(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+}
+
+func (cntrl Comment) Create(w http.ResponseWriter, r *http.Request) {
+	s := mux.Vars(r)["id"]
+	postID, err := strconv.Atoi(s)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	sess, _ := cntrl.SessionStore.Get(r, cntrl.Config.Session.Name)
+	userID := sess.Values["userID"].(int)
+
+	comment := &model.Comment{
+		UserID:  userID,
+		PostID:  postID,
+		Content: r.PostFormValue("content"),
+	}
+
+	cntrl.Model.Create(comment)
+
+	http.Redirect(w, r, fmt.Sprintf("/post/%d/comment", postID), http.StatusFound)
 }
