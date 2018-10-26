@@ -144,5 +144,12 @@ func route(app *mvc.MVC) {
 				Method: "Show",
 			},
 		},
+		{
+			Methods: []string{"DELETE"},
+			Path:    "/post/{postID}/comment/{id}",
+			Controller: path.Controller{
+				Method: "Delete",
+			},
+		},
 	}, middleware.Authenticate)
 }

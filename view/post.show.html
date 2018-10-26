@@ -31,8 +31,11 @@
 
         <ul class="mt-5">
             {{ range .Comments }}
-            <li>
+            <li class=" mt-3">
                 <p>{{ .Content }}</p>
+                <a id="{{ .ID }}" class=" btn btn-danger btn-block col-md-2 deleteCommentButton" href="" role="button">
+                    Delete
+                </a>
             </li>
             {{ end }}
         </ul>
@@ -49,6 +52,24 @@
                 location.href = "/account/{{ .User.ID }}"
             })
         }, false)
+
+        var deleteCommentButtons = document.getElementsByClassName("deleteCommentButton")
+        for (var i = 0; i < deleteCommentButtons.length; i++) {
+            var button = deleteCommentButtons[i]
+            button.addEventListener("click", function (e) {
+                e.preventDefault()
+                deleteComment(e.currentTarget.id)
+            }, false)
+        }
+
+        function deleteComment(id) {
+            $.ajax({
+                url: "http://192.168.55.55:5050/post/{{ .Post.ID}}/comment/" + id,
+                type: "DELETE"
+            }).done(function () {
+                location.href = "/post/{{ .Post.ID }}/comment"
+            })
+        }
     </script>
 </body>
 

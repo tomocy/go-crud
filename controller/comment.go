@@ -106,3 +106,19 @@ func (cntrl Comment) Show(w http.ResponseWriter, r *http.Request) {
 		Comments: comments,
 	})
 }
+
+func (cntrl Comment) Delete(w http.ResponseWriter, r *http.Request) {
+	s := mux.Vars(r)["id"]
+	id, err := strconv.Atoi(s)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	comment := &model.Comment{
+		ID: id,
+	}
+
+	cntrl.Model.Delete(comment)
+}
