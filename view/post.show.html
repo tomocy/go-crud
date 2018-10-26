@@ -28,6 +28,14 @@
                 Comment
             </a>
         </div>
+
+        <ul class="mt-5">
+            {{ range .Comments }}
+            <li>
+                <p>{{ .Content }}</p>
+            </li>
+            {{ end }}
+        </ul>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>

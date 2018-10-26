@@ -137,5 +137,12 @@ func route(app *mvc.MVC) {
 				Method: "Create",
 			},
 		},
-	})
+		{
+			Methods: []string{"GET"},
+			Path:    "/post/{id}/comment",
+			Controller: path.Controller{
+				Method: "Show",
+			},
+		},
+	}, middleware.Authenticate)
 }

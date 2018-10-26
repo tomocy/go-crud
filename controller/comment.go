@@ -69,3 +69,40 @@ func (cntrl Comment) Create(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, fmt.Sprintf("/post/%d/comment", postID), http.StatusFound)
 }
+
+func (cntrl Comment) Show(w http.ResponseWriter, r *http.Request) {
+	s := mux.Vars(r)["id"]
+	postID, err := strconv.Atoi(s)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	post := &model.Post{
+		ID: postID,
+	}
+
+	cntrl.Model.Find(post)
+
+	sess, _ := cntrl.SessionStore.Get(r, cntrl.Config.Session.Name)
+	userID := sess.Values["userID"].(int)
+
+	user := &model.User{
+		ID: userID,
+	}
+
+	comments := []model.Comment{}
+
+	cntrl.Model.Find(&comments, "post_id=?", postID)
+
+	cntrl.View.Render(w, "post.show.html", struct {
+		User     *model.User
+		Post     *model.Post
+		Comments []model.Comment
+	}{
+		User:     user,
+		Post:     post,
+		Comments: comments,
+	})
+}
